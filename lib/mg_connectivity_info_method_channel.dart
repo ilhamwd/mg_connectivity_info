@@ -9,11 +9,12 @@ class MethodChannelMgConnectivityInfo extends MgConnectivityInfoPlatform {
   late Stream<MGDataConnectionStatus> _dataConnectionStream;
   late Stream<MGHotspotStatus> _hotspotStatusStream;
 
-  MethodChannelMgConnectivityInfo() {
+  @override
+  Stream<MGDataConnectionStatus> get dataConnectivityState {
     // Data connection stream
     const eventChannel = EventChannel("mg/data_connection_state");
     final dataConnectionStreamController =
-        StreamController<MGDataConnectionStatus>();
+    StreamController<MGDataConnectionStatus>();
     _dataConnectionStream =
         dataConnectionStreamController.stream.asBroadcastStream();
 
@@ -49,6 +50,11 @@ class MethodChannelMgConnectivityInfo extends MgConnectivityInfoPlatform {
       dataConnectionStreamController.sink.add(data);
     });
 
+    return _dataConnectionStream;
+  }
+
+  @override
+  Stream<MGHotspotStatus> get hotspotStatus {
     // Hotspot status stream
     const hotspotEventChannel = EventChannel("mg/hotspot_status_changed");
     final hotspotStatusStreamController = StreamController<MGHotspotStatus>();
@@ -62,12 +68,7 @@ class MethodChannelMgConnectivityInfo extends MgConnectivityInfoPlatform {
         hotspotStatusStreamController.sink.add(MGHotspotStatus.off);
       }
     });
+
+    return _hotspotStatusStream;
   }
-
-  @override
-  Stream<MGDataConnectionStatus> get dataConnectivityState =>
-      _dataConnectionStream;
-
-  @override
-  Stream<MGHotspotStatus> get hotspotStatus => _hotspotStatusStream;
 }
