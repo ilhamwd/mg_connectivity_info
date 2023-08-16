@@ -28,7 +28,7 @@ class MgDataConnectivityStateHandler(context: Context, messenger: BinaryMessenge
                         if (manager.dataState == TelephonyManager.DATA_DISCONNECTED) {
                             events?.success("0")
                         } else {
-                            events?.success(manager.dataNetworkType)
+                            events?.success(if (Build.VERSION.SDK_INT >= 24) manager.dataNetworkType else manager.networkType)
                         }
                     }
 
