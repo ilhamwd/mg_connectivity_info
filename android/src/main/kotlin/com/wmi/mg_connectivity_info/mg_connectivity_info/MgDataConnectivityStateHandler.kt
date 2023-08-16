@@ -59,7 +59,7 @@ class MgDataConnectivityStateHandler(context: Context, messenger: BinaryMessenge
                 }
 
                 override fun onCancel(arguments: Any?) {
-                    TODO("Not yet implemented")
+
                 }
 
             }
