@@ -25,7 +25,7 @@ class MgDataConnectivityStateHandler(context: Context, messenger: BinaryMessenge
                             Manifest.permission.READ_PHONE_STATE
                         ) == PackageManager.PERMISSION_GRANTED
                     ) {
-                        if (manager.dataState == 0) {
+                        if (manager.dataState == TelephonyManager.DATA_DISCONNECTED) {
                             events?.success("0")
                         } else {
                             events?.success(manager.dataNetworkType)
