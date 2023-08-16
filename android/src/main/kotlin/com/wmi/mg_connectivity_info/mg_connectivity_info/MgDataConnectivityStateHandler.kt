@@ -25,7 +25,11 @@ class MgDataConnectivityStateHandler(context: Context, messenger: BinaryMessenge
                             Manifest.permission.READ_PHONE_STATE
                         ) == PackageManager.PERMISSION_GRANTED
                     ) {
-                        events?.success(manager.dataNetworkType)
+                        if (manager.dataState == 0) {
+                            events?.success("0")
+                        } else {
+                            events?.success(manager.dataNetworkType)
+                        }
                     }
 
                     if (Build.VERSION.SDK_INT >= 31) {
