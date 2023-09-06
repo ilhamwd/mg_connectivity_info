@@ -1,4 +1,3 @@
-
 import 'package:mg_connectivity_info/mg_connectivity_info_common.dart';
 
 import 'mg_connectivity_info_platform_interface.dart';
@@ -13,4 +12,6 @@ class MgConnectivityInfo {
   Stream<MGHotspotStatus> get hotspotStatus {
     return MgConnectivityInfoPlatform.instance.hotspotStatus;
   }
+
+  void init() => MgConnectivityInfoPlatform.instance.init();
 }

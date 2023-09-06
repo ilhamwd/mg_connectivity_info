@@ -8,7 +8,8 @@ abstract class MgConnectivityInfoPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static MgConnectivityInfoPlatform _instance = MethodChannelMgConnectivityInfo();
+  static MgConnectivityInfoPlatform _instance =
+      MethodChannelMgConnectivityInfo();
 
   static MgConnectivityInfoPlatform get instance => _instance;
 
@@ -20,4 +21,6 @@ abstract class MgConnectivityInfoPlatform extends PlatformInterface {
   Stream<MGDataConnectionStatus> get dataConnectivityState;
 
   Stream<MGHotspotStatus> get hotspotStatus;
+
+  Future<void> init();
 }

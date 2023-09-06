@@ -6,15 +6,25 @@ import 'package:mg_connectivity_info/mg_connectivity_info_common.dart';
 import 'mg_connectivity_info_platform_interface.dart';
 
 class MethodChannelMgConnectivityInfo extends MgConnectivityInfoPlatform {
+  final methodChannel = const MethodChannel("mg_connectivity_info");
   late Stream<MGDataConnectionStatus> _dataConnectionStream;
   late Stream<MGHotspotStatus> _hotspotStatusStream;
+  bool initialized = false;
+
+  void _ensureInitialized() {
+    if (!initialized) {
+      throw Exception("Connectivity channel has not been initialized");
+    }
+  }
 
   @override
   Stream<MGDataConnectionStatus> get dataConnectivityState {
+    _ensureInitialized();
+
     // Data connection stream
     const eventChannel = EventChannel("mg/data_connection_state");
     final dataConnectionStreamController =
-    StreamController<MGDataConnectionStatus>();
+        StreamController<MGDataConnectionStatus>();
     _dataConnectionStream =
         dataConnectionStreamController.stream.asBroadcastStream();
 
@@ -55,6 +65,8 @@ class MethodChannelMgConnectivityInfo extends MgConnectivityInfoPlatform {
 
   @override
   Stream<MGHotspotStatus> get hotspotStatus {
+    _ensureInitialized();
+
     // Hotspot status stream
     const hotspotEventChannel = EventChannel("mg/hotspot_status_changed");
     final hotspotStatusStreamController = StreamController<MGHotspotStatus>();
@@ -70,5 +82,12 @@ class MethodChannelMgConnectivityInfo extends MgConnectivityInfoPlatform {
     });
 
     return _hotspotStatusStream;
+  }
+
+  @override
+  Future<void> init() async {
+    await methodChannel.invokeMethod("init");
+
+    initialized = true;
   }
 }
